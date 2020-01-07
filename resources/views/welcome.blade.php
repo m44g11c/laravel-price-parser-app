@@ -9,7 +9,7 @@
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
 
-        <!-- Styles -->
+        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
         <style>
             html, body {
                 background-color: #fff;
@@ -61,10 +61,19 @@
             .m-b-md {
                 margin-bottom: 30px;
             }
+
+            body > div > div.content > div > nav > ul > li > a {
+                color: #343a40;
+            }
+
+            body > div > div.content > div > nav > ul > li.page-item.active > span {
+                background-color: #343a40;
+                border-color: #343a40;
+            }
         </style>
     </head>
     <body>
-        <div class="flex-center position-ref full-height">
+        <div class="flex-center">
             @if (Route::has('login'))
                 <div class="top-right links">
                     @auth
@@ -80,20 +89,35 @@
             @endif
 
             <div class="content">
-                <div class="title m-b-md">
-                    Laravel
-                </div>
-
-                <div class="links">
-                    <a href="https://laravel.com/docs">Docs</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://blog.laravel.com">Blog</a>
-                    <a href="https://nova.laravel.com">Nova</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://vapor.laravel.com">Vapor</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
-                </div>
+                <table class="table table-hover table-dark">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Code</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Stock</th>
+                            <th scope="col">Cost</th>
+                            <th scope="col">Discountinued</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @foreach ($goods as $good)
+                        <tr>
+                            <th scope="row">{{ $good->id }}</th>
+                            <td>{{ $good->product->code }}</td>
+                            <td>{{ $good->product->name }}</td>
+                            <td>{{ $good->product->description }}</td>
+                            <td>{{ $good->stock }}</td>
+                            <td>{{ $good->cost }}</td>
+                            <td></td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+                <div class="flex-center">
+                    {{ $goods->links() }}
+                </div>    
             </div>
         </div>
     </body>
