@@ -10,7 +10,7 @@ class UserController extends Controller
     public function goods()
     {
         $user_id = Auth::id();
-        $goods = Good::with('product')->where('user_id', $user_id)->get();
+        $goods = Good::with('product')->where('user_id', $user_id)->paginate(15);
         
         return view('home', compact('goods'));
     }

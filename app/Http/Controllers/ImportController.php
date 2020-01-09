@@ -36,9 +36,7 @@ class ImportController extends Controller
             ]);
             $good->save();
         }
-
-        // $goods = Good::with('product')->where('user_id', Auth::id())->get();
         
-        return redirect()->back()->with("status", "Imported");
+        return redirect()->back()->with("status", "Total records: ".count($rows)." Imported: ".count($data) );
     }
 }

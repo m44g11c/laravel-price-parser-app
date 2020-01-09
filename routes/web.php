@@ -19,5 +19,7 @@ Route::get('/', 'GoodController@goods');
 
 Auth::routes();
 
-Route::get('/home', 'UserController@goods');
-Route::post('/home', 'ImportController@import');
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/home', 'UserController@goods');
+    Route::post('/home', 'ImportController@import');
+});

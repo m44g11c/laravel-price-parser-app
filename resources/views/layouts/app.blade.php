@@ -18,6 +18,16 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <style>
+        .page-link {
+            color: #212529;
+        }
+
+        .page-item.active .page-link {
+            background-color: #212529;
+            border-color: #212529;
+        }
+    </style>
 </head>
 <body>
     <div id="app">
