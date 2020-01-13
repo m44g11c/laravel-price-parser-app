@@ -23,3 +23,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/home', 'UserController@goods');
     Route::post('/home', 'ImportController@import');
 });
+
+Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
+    Route::resource('users', 'UserController');    
+});
