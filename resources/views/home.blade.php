@@ -49,7 +49,7 @@
                 <div class="card-body">
                     <form action="" method="POST" enctype="multipart/form-data" >
                         @csrf
-                        <input type="file" name="file" accept=".csv">
+                        <input type="file" name="file" accept=".csv,.txt">
                         <br>
                         <br>
                         <button class="btn btn-success">Process</button>
