@@ -28,7 +28,14 @@
                             <th scope="row">{{$user->id}}</th>
                             <td>{{$user->name}}</td>
                             <td>{{$user->email}}</td>
-                            <td><a href="{{ route('users.edit',$user->id)}}" class="btn btn-dark">Edit</a></td>
+                            <td style="display: flex">
+                                <a href="{{ route('users.edit',$user->id)}}" class="btn btn-dark">Edit</a>
+                                <form action="/admin/users/{{ $user->id }}" method="post">
+                                    {{ csrf_field() }}
+                                    {{ method_field('delete') }}
+                                    <button class="btn btn-danger" type="submit" style="margin-left: 5px">Delete</button>
+                                </form>
+                            </td>
                         </tr>
                         @endforeach
                     </tbody>

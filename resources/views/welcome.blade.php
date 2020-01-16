@@ -94,6 +94,7 @@
                     <thead>
                         <tr>
                             <th scope="col">ID</th>
+                            <th scope="col">Supplier</th>
                             <th scope="col">Code</th>
                             <th scope="col">Name</th>
                             <th scope="col">Description</th>
@@ -106,6 +107,7 @@
                     @foreach ($goods as $good)
                         <tr>
                             <th scope="row">{{ $good->id }}</th>
+                            <td>{{ $good->user->name }}</td>
                             <td>{{ $good->product->code }}</td>
                             <td>{{ $good->product->name }}</td>
                             <td>{{ $good->product->description }}</td>
