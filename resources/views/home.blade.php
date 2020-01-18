@@ -49,7 +49,7 @@
                 <div class="card-body">
                     <form action="" method="POST" enctype="multipart/form-data" >
                         @csrf
-                        <input type="file" name="file" accept=".csv,.txt">
+                        <input type="file" name="file">
                         <br>
                         <br>
                         <button class="btn btn-success">Process</button>
@@ -59,6 +59,15 @@
                         <div class="alert alert-success" role="alert">
                             {{ session('status') }}
                         </div>
+                    @endif
+                    @if ($errors->any())
+                    <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                    </div><br />
                     @endif
                 </div>
             </div>

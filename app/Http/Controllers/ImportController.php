@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Import\ImportService;
 use App\Import\CsvImport;
 use App\Import\TxtImport;
+use App\Import\NotFoundImportStrategyException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class ImportController extends Controller
 {
@@ -15,9 +17,23 @@ class ImportController extends Controller
         $importService->addType(new TxtImport(), 'txt');
 
         $file = request()->file('file');
-        $importService->setType($file->getClientOriginalExtension());
-        $result = $importService->import($file);
 
+        if (!$file instanceof UploadedFile) {
+            return redirect()
+                ->back()
+                ->withErrors(['msg' => 'No file added']);    
+        }
+
+        $importService->setType($file->getClientOriginalExtension());
+
+        try {
+            $result = $importService->getImport($file->getClientOriginalExtension())->import($file);
+        } catch (NotFoundImportStrategyException $exception) {
+            return redirect()
+                ->back()
+                ->withErrors(['msg' => $exception->getMessage()]);    
+        }
+        
         return redirect()
             ->back()
             ->with("status", $result);

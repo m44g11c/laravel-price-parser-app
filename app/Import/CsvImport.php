@@ -5,6 +5,7 @@ namespace App\Import;
 use App\Good;
 use App\Product;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Validator;
 
 class CsvImport implements ImportInterface
@@ -26,13 +27,7 @@ class CsvImport implements ImportInterface
             $field['Cost in GBP'] = intval($field['Cost in GBP']);
             $field['Stock'] = intval($field['Stock']);
 
-            $validator = Validator::make($field, [
-                'Product Code' => 'required',
-                'Product Name' => 'required',
-                'Product Description' => 'required',
-                'Stock' => 'gt:10',
-                'Cost in GBP' => 'gt:5',
-            ]);
+            $validator = Validator::make($field, Config::get('rules.defaultPreset'));
 
             if ($validator->fails()) {
                 $errors[$key] = $validator->errors();

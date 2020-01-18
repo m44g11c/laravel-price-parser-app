@@ -2,6 +2,8 @@
 
 namespace App\Import;
 
+use App\Import\NotFoundImportStrategyException;
+
 interface ImportInterface
 {
     public function import($file);
@@ -17,13 +19,20 @@ class ImportService
         $this->types[$typeName] = $type;
     }
 
-    public function setType(string $type)
+    public function setType($type)
     {
         $this->type = $type;
     }
 
-    public function import($file)
+    /**
+     * @throw \Exception
+     */
+    public function getImport(string $type): ImportInterface
     {
-        return $this->types[$this->type]->import($file);
+        if (isset($this->types[$type])) {
+            return $this->types[$this->type];
+        } else {
+            throw new NotFoundImportStrategyException('Any import strategy was not found for this type');
+        }
     }
 }
