@@ -10,7 +10,15 @@ use Illuminate\Support\Facades\Validator;
 
 class CsvImport implements ImportInterface
 {
-    public function import($file)
+    
+    /**
+     * import
+     *
+     * @param  mixed $file
+     *
+     * @return string
+     */
+    public function import($file): string
     {
         $rows = array_map('str_getcsv', file($file));
         $header = array_shift($rows);

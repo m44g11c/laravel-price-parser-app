@@ -14,18 +14,39 @@ class ImportService
     private $type;
     private $types = [];
 
+    /**
+     * addType
+     *
+     * @param  mixed $type
+     * @param  mixed $typeName
+     *
+     * @return void
+     */
     public function addType(ImportInterface $type, string $typeName)
     {
         $this->types[$typeName] = $type;
     }
 
+    /**
+     * setType
+     *
+     * @param  mixed $type
+     *
+     * @return void
+     */
     public function setType($type)
     {
         $this->type = $type;
     }
 
     /**
+     * getImport
+     *
+     * @param  mixed $type
+     * 
      * @throw \Exception
+     * 
+     * @return ImportInterface
      */
     public function getImport(string $type): ImportInterface
     {

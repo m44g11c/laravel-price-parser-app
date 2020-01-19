@@ -2,7 +2,7 @@
 
 namespace App\Import;
 
-interface ImportInterface 
+interface ImportInterface
 {
     public function import($file);
 }
