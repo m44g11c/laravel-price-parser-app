@@ -24,6 +24,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/home', 'ImportController@import');
 });
 
-Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
+Route::group(['prefix' => 'admin', 'middleware' => 'check_user_role:' . \App\Role\UserRole::ROLE_ADMIN], function () {
     Route::resource('users', 'UserController');    
 });

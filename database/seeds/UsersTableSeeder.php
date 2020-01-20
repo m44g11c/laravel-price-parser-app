@@ -17,7 +17,7 @@ class UsersTableSeeder extends Seeder
         DB::table('users')->insert([
             'name' => 'admin',
             'email' => 'admin@gmail.com',
-            'is_admin' => true,
+            'roles' => 'ROLE_ADMIN',
             'password' => Hash::make('password'),
         ]);
 
