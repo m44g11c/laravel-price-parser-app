@@ -29,7 +29,7 @@
                                 <td>{{ $good->product->description }}</td>
                                 <td>{{ $good->stock }}</td>
                                 <td>{{ $good->cost }}</td>
-                                <td></td>
+                                <td>{{ $good->discount }}</td>
                             </tr>
                         @endforeach
                         </tbody>

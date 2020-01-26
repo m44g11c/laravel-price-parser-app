@@ -10,7 +10,7 @@ class GoodController extends Controller
     // Get all goods
     public function goods()
     {
-        $goods = Good::with('product', 'user')->paginate(Config::get('constants.paginationValue'));
+        $goods = Good::with('product', 'user')->sortable()->paginate(Config::get('constants.paginationValue'));
 
         return view('welcome', compact('goods'));
     }

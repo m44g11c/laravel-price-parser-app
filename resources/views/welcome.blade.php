@@ -93,14 +93,14 @@
                 <table class="table table-hover table-dark">
                     <thead>
                         <tr>
-                            <th scope="col">ID</th>
-                            <th scope="col">Supplier</th>
-                            <th scope="col">Code</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Description</th>
-                            <th scope="col">Stock</th>
-                            <th scope="col">Cost</th>
-                            <th scope="col">Discountinued</th>
+                            <th scope="col">@sortablelink('id')</i></th>
+                            <th scope="col">@sortablelink('user.name', 'supplier')</th>
+                            <th scope="col">@sortablelink('product.code', 'code')</th>
+                            <th scope="col">@sortablelink('product.name', 'name')</th>
+                            <th scope="col">@sortablelink('product.description', 'description')</th>
+                            <th scope="col">@sortablelink('stock')</th>
+                            <th scope="col">@sortablelink('cost')</th>
+                            <th scope="col">@sortablelink('discontinued')</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -113,7 +113,7 @@
                             <td>{{ $good->product->description }}</td>
                             <td>{{ $good->stock }}</td>
                             <td>{{ $good->cost }}</td>
-                            <td></td>
+                            <td>{{ $good->discount }}</td>
                         </tr>
                     @endforeach
                     </tbody>

@@ -27,6 +27,7 @@ class CreateGoodsTable extends Migration
                 ->references('id')
                 ->on('products')
                 ->onDelete('cascade');
+            $table->text('discount')->nullable();
             $table->timestamps();
         });
     }

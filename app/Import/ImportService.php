@@ -6,7 +6,7 @@ use App\Import\NotFoundImportStrategyException;
 
 interface ImportInterface
 {
-    public function import($file);
+    public function import(\SplFileInfo $file);
 }
 
 class ImportService

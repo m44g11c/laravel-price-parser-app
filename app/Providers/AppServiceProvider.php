@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+// use App\Http\Controllers\ImportController;
 use App\Http\Middleware\CheckUserRole;
 use App\Role\RoleChecker;
 use Illuminate\Foundation\Application;
@@ -21,6 +22,12 @@ class AppServiceProvider extends ServiceProvider
                 $app->make(RoleChecker::class)
             );
         });
+
+        // $this->app->singleton(ImportController::class, function(Application $app) {
+        //     return new ImportController(
+        //         $app->make(ImportController::class)
+        //     );
+        // });
     }
 
     /**

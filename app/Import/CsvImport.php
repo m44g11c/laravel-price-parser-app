@@ -18,7 +18,7 @@ class CsvImport implements ImportInterface
      *
      * @return string
      */
-    public function import($file): string
+    public function import(\SplFileInfo $file): string
     {
         $rows = array_map('str_getcsv', file($file));
         $header = array_shift($rows);
@@ -51,6 +51,7 @@ class CsvImport implements ImportInterface
                     'cost' => $field['Cost in GBP'],
                     'user_id' => Auth::id(),
                     'product_id' => $product->id,
+                    'discount' => $field['Discontinued'],
                 ]);
                 $good->save();
             }
@@ -60,4 +61,5 @@ class CsvImport implements ImportInterface
 
         return $result;
     }
+
 }

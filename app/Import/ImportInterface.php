@@ -4,5 +4,5 @@ namespace App\Import;
 
 interface ImportInterface
 {
-    public function import($file);
+    public function import(\SplFileInfo $file): string;
 }
