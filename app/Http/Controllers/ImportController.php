@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+// use App\Import\ImportService;
+// use App\Import\CsvImport;
+// use App\Import\TxtImport;
 use App\Import\ImportService;
-use App\Import\CsvImport;
-use App\Import\TxtImport;
 use App\Import\NotFoundImportStrategyException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -15,9 +16,10 @@ class ImportController extends Controller
 
     public function __construct(ImportService $import)
     {
+        
         $this->import = $import;
-        $this->import->addType(new CsvImport(), 'csv');
-        $this->import->addType(new TxtImport(), 'txt');
+        // $this->import->addType(new CsvImport(), 'csv');
+        // $this->import->addType(new TxtImport(), 'txt');
     }
 
     public function import()

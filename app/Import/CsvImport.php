@@ -10,7 +10,18 @@ use Illuminate\Support\Facades\Validator;
 
 class CsvImport implements ImportInterface
 {
-    
+    public function __construct()
+    {
+        $this->preset = $this->getPreset();
+    }
+
+    protected function getPreset(): array
+    {
+        $preset = Config::get('rules.defaultPreset');
+
+        return $preset;
+    }
+
     /**
      * import
      *
@@ -35,7 +46,7 @@ class CsvImport implements ImportInterface
             $field['Cost in GBP'] = intval($field['Cost in GBP']);
             $field['Stock'] = intval($field['Stock']);
 
-            $validator = Validator::make($field, Config::get('rules.defaultPreset'));
+            $validator = Validator::make($field, $this->preset);
 
             if ($validator->fails()) {
                 $errors[$key] = $validator->errors();

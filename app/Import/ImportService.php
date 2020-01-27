@@ -4,11 +4,6 @@ namespace App\Import;
 
 use App\Import\NotFoundImportStrategyException;
 
-interface ImportInterface
-{
-    public function import(\SplFileInfo $file);
-}
-
 class ImportService
 {
     private $type;
