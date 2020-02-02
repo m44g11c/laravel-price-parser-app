@@ -2,24 +2,18 @@
 
 namespace App\Http\Controllers;
 
-// use App\Import\ImportService;
-// use App\Import\CsvImport;
-// use App\Import\TxtImport;
-use App\Import\ImportService;
+use App\Import\ImportStrategyServiceInterface;
 use App\Import\NotFoundImportStrategyException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+
+
 
 class ImportController extends Controller
 {
 
-    private $import;
-
-    public function __construct(ImportService $import)
+    public function __construct(ImportStrategyServiceInterface $importStrategyService)
     {
-        
-        $this->import = $import;
-        // $this->import->addType(new CsvImport(), 'csv');
-        // $this->import->addType(new TxtImport(), 'txt');
+        $this->importStrategyService = $importStrategyService;        
     }
 
     public function import()
@@ -32,18 +26,30 @@ class ImportController extends Controller
                 ->withErrors(['msg' => 'No file added']);    
         }
 
-        $this->import->setType($file->getClientOriginalExtension());
-
         try {
-            $result = $this->import->getImport($file->getClientOriginalExtension())->import($file);
+            $importStrategy = $this->importStrategyService->getImportStrategy($file->getClientOriginalExtension());
         } catch (NotFoundImportStrategyException $exception) {
             return redirect()
                 ->back()
                 ->withErrors(['msg' => $exception->getMessage()]);    
         }
-        
+
+        $data = $importStrategy->import($file);
+
+        switch (request()->input('radios')) {
+            case 'insert':
+                $result = $importStrategy->insert($data);
+                break;
+            case 'replace':
+                $result = $importStrategy->replace($data);
+                break;
+            case 'delete':
+                $result = $importStrategy->delete($data);
+                break; 
+        }
+    
         return redirect()
             ->back()
-            ->with("status", $result);
+            ->with("status", $result);    
     }
 }

@@ -2,14 +2,18 @@
 
 namespace App\Providers;
 
+use App\Import\ImportStrategyManager;
 use Illuminate\Support\ServiceProvider;
-use App\Import\ImportService;
-use App\Import\CsvImport;
-use App\Import\TxtImport;
-
+use App\Import\Strategy\CsvImportStrategy;
+use App\Import\Strategy\TxtImportStrategy;
+use App\Import\ImportStrategyServiceInterface;
 
 class ImportServiceProvider extends ServiceProvider
 {
+    public $bindings = [
+        ImportStrategyServiceInterface::class => ImportStrategyManager::class,
+    ];
+
     /**
      * Register services.
      *
@@ -17,13 +21,15 @@ class ImportServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('App\Library\Services\ImportService', function ($app) {
-            $importServiceObj = new ImportService();
-            $importServiceObj->addType(new CsvImport(), 'csv');
-            $importServiceObj->addType(new TxtImport(), 'txt');
+        $this->app->when(ImportStrategyManager::class)
+            ->needs('$importStrategies')
+            ->give(function () {
 
-            return $importServiceObj;
-        });
+                return [
+                    CsvImportStrategy::TYPE => CsvImportStrategy::class,
+                    TxtImportStrategy::TYPE => TxtImportStrategy::class,
+                ];
+            });
     }
 
     /**
@@ -33,6 +39,6 @@ class ImportServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+
     }
 }

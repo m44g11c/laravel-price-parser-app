@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card">
+            <div class="card shadow">
                 <div class="card-header">List</div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -42,13 +42,26 @@
             </div>
         </div>
         <div class="col-md-4">
-            <div class="card">
+            <div class="card shadow">
                 <div class="card-header">
                     Import
                 </div>
                 <div class="card-body">
                     <form action="" method="POST" enctype="multipart/form-data" >
                         @csrf
+                        <div class="form-check">
+                            <input type="radio" class="form-check-input" id="insert" value="insert" name="radios" checked>
+                            <label class="form-check-label" for="insert">Insert</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="radio" class="form-check-input" id="replace" value="replace" name="radios">
+                            <label class="form-check-label" for="replace">Replace</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="radio" class="form-check-input" id="delete" value="delete" name="radios">
+                            <label class="form-check-label" for="delete">Delete</label>
+                        </div>
+                        <br>
                         <input type="file" name="file">
                         <br>
                         <br>

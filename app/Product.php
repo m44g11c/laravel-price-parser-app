@@ -10,11 +10,11 @@ class Product extends Model
     use Sortable;
 
     protected $fillable = [
-        'code', 'name', 'description',
+        'id', 'code', 'name', 'description',
     ];
 
     public $sortable = [
-        'code', 'name', 'description',
+        'id', 'code', 'name', 'description',
     ];
 
     public function good()

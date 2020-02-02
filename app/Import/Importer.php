@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Validator;
 
-class CsvImport implements ImportInterface
+class Importer
 {
     public function __construct()
     {
@@ -22,26 +22,8 @@ class CsvImport implements ImportInterface
         return $preset;
     }
 
-    /**
-     * import
-     *
-     * @param  mixed $file
-     *
-     * @return string
-     */
-    public function import(\SplFileInfo $file): string
+    public function insert(array $data): string
     {
-        $rows = array_map('str_getcsv', file($file));
-        $header = array_shift($rows);
-        $data = [];
-        $errors = [];
-
-        foreach ($rows as $row) {
-            if (count($row) == count($header)) {
-                $data[] = array_combine($header, $row);
-            }
-        }
-
         foreach ($data as $key => $field) {
             $field['Cost in GBP'] = intval($field['Cost in GBP']);
             $field['Stock'] = intval($field['Stock']);
@@ -68,9 +50,30 @@ class CsvImport implements ImportInterface
             }
         }
 
-        $result = "Imported! Total: " . count($rows) . " Skipped: " . count($errors);
+        $result = "Imported! Total: " . count($data) . " Skipped: " . count($errors);
 
         return $result;
     }
 
+    public function delete(array $data): string
+    {
+        $deleted = 0;
+
+        foreach ($data as $key => $field) {
+            $product = Product::where('code', $field['Product Code'])->get();
+
+            if ($product->isNotEmpty()) {
+                $good = Good::where('user_id', '=',  Auth::id())
+                    ->where('product_id', '=', $product[0]->id)->get();
+                if ($good->isNotEmpty()) {
+                    $deleted++;
+                    Good::destroy($good[0]->id);
+                }
+            }
+        }
+
+        $result = "Deletion! Total: " . count($data) . " Deleted: " . $deleted;
+
+        return $result;
+    }
 }
