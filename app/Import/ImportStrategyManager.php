@@ -32,8 +32,7 @@ class ImportStrategyManager implements ImportStrategyServiceInterface
 
     public function getImportStrategy(string $type): ImportInterface
     {   
-
-        if (in_array($type, $this->getAvailableImportStrategies())){
+        if (array_key_exists($type, $this->getAvailableImportStrategies())){
             return $this->app->make($this->getAvailableImportStrategies()[$type]);    
         } else {
             throw new NotFoundImportStrategyException('Any import strategy was not found for this type');
