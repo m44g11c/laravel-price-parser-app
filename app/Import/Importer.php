@@ -24,6 +24,8 @@ class Importer
 
     public function insert(array $data): string
     {
+        $errors = [];
+
         foreach ($data as $key => $field) {
             $field['Cost in GBP'] = intval($field['Cost in GBP']);
             $field['Stock'] = intval($field['Stock']);
@@ -53,6 +55,11 @@ class Importer
         $result = "Imported! Total: " . count($data) . " Skipped: " . count($errors);
 
         return $result;
+    }
+
+    public function replace(array $data): string
+    {
+        return "Replace will be ready soon";
     }
 
     public function delete(array $data): string

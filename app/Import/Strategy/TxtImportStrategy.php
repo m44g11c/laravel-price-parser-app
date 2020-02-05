@@ -2,20 +2,36 @@
 
 namespace App\Import\Strategy;
 
-class TxtImportStrategy implements ImportInterface
+use App\Import\Importer;
+
+class TxtImportStrategy extends Importer implements ImportInterface
 {
     public const TYPE = 'txt';
 
+    /**
+     * import
+     *
+     * @param  mixed $file
+     *
+     * @return array
+     */
     public function import(\SplFileInfo $file): array
     {
-        return [
-            'type'          => static::TYPE,
-            'fileName'      => $file,
-            'success'       => rand(0, 100),
-            'error'         => rand(0, 100),
-            'errorMessages' => [
-                'Not valid data',
-            ],
-        ];
+        $rows = array_map(function ($val) {
+            return explode(',', $val);
+        }, file($file));
+
+        $header = array_shift($rows);
+        $headerLastValue = array_pop($header);
+        $header[] = str_replace("\n", "", $headerLastValue);
+        $data = [];
+
+        foreach ($rows as $row) {
+            if (count($row) == count($header)) {
+                $data[] = array_combine($header, $row);
+            }
+        }
+
+        return $data;
     }
 }
