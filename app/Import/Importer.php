@@ -59,7 +59,26 @@ class Importer
 
     public function replace(array $data): string
     {
-        return "Replace will be ready soon";
+        foreach ($data as $key => $field) {
+            $field['Cost in GBP'] = intval($field['Cost in GBP']);
+            $field['Stock'] = intval($field['Stock']);
+
+            $product = Product::updateOrCreate(['code' => $field['Product Code']], [
+                'name' => $field['Product Name'],
+                'description' => $field['Product Description']
+            ]);
+
+            Good::updateOrCreate([
+                'user_id' => Auth::id(),
+                'product_id' => $product->id], [
+                'stock' => $field['Stock'],
+                'cost' => $field['Cost in GBP']
+            ]);
+        }
+
+        $result = "Updated! Total: " . count($data);
+
+        return $result;
     }
 
     public function delete(array $data): string

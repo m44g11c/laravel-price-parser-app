@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CheckFile;
 use App\Import\ImportStrategyServiceInterface;
 use App\Import\NotFoundImportStrategyException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -16,24 +17,11 @@ class ImportController extends Controller
         $this->importStrategyService = $importStrategyService;        
     }
 
-    public function import()
+    public function import(CheckFile $request)
     {
         $file = request()->file('file');
-
-        if (!$file instanceof UploadedFile) {
-            return redirect()
-                ->back()
-                ->withErrors(['msg' => 'No file added']);    
-        }
-
-        try {
-            $importStrategy = $this->importStrategyService->getImportStrategy($file->getClientOriginalExtension());
-        } catch (NotFoundImportStrategyException $exception) {
-            return redirect()
-                ->back()
-                ->withErrors(['msg' => $exception->getMessage()]);    
-        }
-
+        $importStrategy = $this->importStrategyService
+            ->getImportStrategy($file->getClientOriginalExtension());
         $data = $importStrategy->import($file);
 
         switch (request()->input('radios')) {
@@ -50,6 +38,7 @@ class ImportController extends Controller
     
         return redirect()
             ->back()
-            ->with("status", $result);    
+            ->with("status", $result);
+    
     }
 }
